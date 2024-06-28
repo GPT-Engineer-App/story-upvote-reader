@@ -10,7 +10,7 @@ const fetchTopStories = async () => {
   );
   const storyIds = await response.json();
   const stories = await Promise.all(
-    storyIds.slice(0, 100).map(async (id) => {
+    storyIds.slice(0, 5).map(async (id) => {
       const storyResponse = await fetch(
         `https://hacker-news.firebaseio.com/v0/item/${id}.json`
       );
