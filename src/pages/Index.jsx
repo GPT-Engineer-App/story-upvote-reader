@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useQuery } from "react-query";
+import React, { useState, useEffect } from "react";
 import StoryCard from "../components/StoryCard";
 import StorySkeleton from "../components/StorySkeleton";
 import SearchBox from "../components/SearchBox";
@@ -22,7 +21,18 @@ const fetchTopStories = async () => {
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading } = useQuery("topStories", fetchTopStories);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      const stories = await fetchTopStories();
+      setData(stories);
+      setIsLoading(false);
+    };
+    getData();
+  }, []);
 
   const filteredStories = data?.filter((story) =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
